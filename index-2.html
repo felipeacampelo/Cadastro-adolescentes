@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Adolescentes | JUMP</title>
+</head>
+<body>
+    <h1>Adolescentes | JUMP</h1>
+    <p>Total de Adolescentes: {{ total_adolescentes }}</p>
+    <a href="{{ url_for('logout') }}">Logout</a>
+    <a href="{{ url_for('adolescente') }}">Adicionar Adolescente</a>
+
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Idade</th>
+                <th>Data de Nascimento</th>
+                <th>Gênero</th>
+                <th>PG</th>
+                <th>Império</th>
+                <th>Ações</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for adolescente in adolescentes %}
+                <tr>
+                    <td>{{ adolescente.nome }}</td>
+                    <td>{{ adolescente.idade }}</td>
+                    <td>{{ adolescente.data_nascimento.strftime('%d/%m/%Y') }}</td>
+                    <td>{{ adolescente.genero }}</td>
+                    <td>{{ adolescente.pg_nome }}</td>
+                    <td>{{ adolescente.imperio }}</td>
+                    <td>
+                        <a href="{{ url_for('adolescente', id=adolescente.id) }}">Editar</a>
+                        <a href="{{ url_for('excluir', id=adolescente.id) }}">Excluir</a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h2>Cadastrar PG</h2>
+    <form action="{{ url_for('cadastrar_pg') }}" method="POST">
+        <label for="nome_pg">Líder do PG:</label>
+        <input type="text" id="nome_pg" name="nome_pg" required>
+        <button type="submit">Cadastrar</button>
+    </form>
+
+    <h2>Gerar roteiro para Estudo do PG</h2>
+    <form action="{{ url_for('chatgpt') }}" method="POST">
+        <label for="tema">Tema:</label>
+        <input type="text" id="tema" name="tema" required>
+        <button type="submit">Gerar Roteiro</button>
+    </form>
+
+    {% if perguntas %}
+        <h3>Roteiro:</h3>
+        <ul>
+            {% for pergunta in perguntas %}
+                <li>{{ pergunta }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>
+
+
+
